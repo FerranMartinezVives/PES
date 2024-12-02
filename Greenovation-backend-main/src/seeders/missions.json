@@ -1,0 +1,44 @@
+[
+  {
+    "nameCat": "Primera missió",
+    "nameEsp": "Primera misión",
+    "nameEng": "First mission",
+    "descriptionCat": "Completa un esdeveniment qualsevol.",
+    "descriptionEsp": "Completa un evento cualquiera.",
+    "descriptionEng": "Complete any event.",
+    "eventsForCompletion": 1,
+    "lletraId": 7,
+    "energy": 20,
+    "CO2": 20,
+    "happiness": 50,
+    "money": 500
+  },
+  {
+    "nameCat": "Problemes de temperatura",
+    "nameEsp": "Problemas de temperatura",
+    "nameEng": "Temperature issues",
+    "descriptionCat": "Completa 3 esdeveniments relacionats amb la temperatura.",
+    "descriptionEsp": "Completa 3 eventos relacionados con la temperatura.",
+    "descriptionEng": "Complete 3 events related to temperature.",
+    "eventsForCompletion": 3,
+    "lletraId": 7,
+    "energy": 30,
+    "CO2": 20,
+    "happiness": 100,
+    "money": 400
+  },
+  {
+    "nameCat": "Problemes d'electricitat",
+    "nameEsp": "Problemas de electricidad",
+    "nameEng": "Electricity issues",
+    "descriptionCat": "Completa 3 esdeveniments relacionats amb l'electricitat.",
+    "descriptionEsp": "Completa 3 eventos relacionados con la electricidad.",
+    "descriptionEng": "Complete 3 events related to electricity.",
+    "eventsForCompletion": 3,
+    "lletraId": 6,
+    "energy": 60,
+    "CO2": 10,
+    "happiness": 100,
+    "money": 400
+  }
+]

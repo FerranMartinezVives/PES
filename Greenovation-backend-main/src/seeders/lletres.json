@@ -1,0 +1,51 @@
+[
+  {
+    "lletra": "A",
+    "maxConsum": 0,
+    "maxEmissions": 0,
+    "costInspeccio": 0,
+    "multiplicador": 5
+  },
+  {
+    "lletra": "B",
+    "maxConsum": 45,
+    "maxEmissions": 7,
+    "costInspeccio": 0,
+    "multiplicador": 3
+  },
+  {
+    "lletra": "C",
+    "maxConsum": 65,
+    "maxEmissions": 13,
+    "costInspeccio": 0,
+    "multiplicador": 2
+  },
+  {
+    "lletra": "D",
+    "maxConsum": 100,
+    "maxEmissions": 25,
+    "costInspeccio": 0,
+    "multiplicador": 1.5
+  },
+  {
+    "lletra": "E",
+    "maxConsum": 155,
+    "maxEmissions": 45,
+    "costInspeccio": 0,
+    "multiplicador": 1.25
+  },
+  {
+    "lletra": "F",
+    "maxConsum": 250,
+    "maxEmissions": 60,
+    "costInspeccio": 0,
+    "multiplicador": 1.1
+  },
+  {
+    "lletra": "G",
+    "maxConsum": 320,
+    "maxEmissions": 70,
+    "costInspeccio": 0,
+    "multiplicador": 1
+  }
+]

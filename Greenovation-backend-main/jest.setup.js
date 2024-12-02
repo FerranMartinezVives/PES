@@ -1,0 +1,4 @@
+process.env.DB_HOST = 'localhost'
+process.env.NODE_ENV = 'test'
+process.env.ACCESS_TOKEN_SECRET = 'e322c9103d23cfbad01387eb742c1c5438c9cf56edeecc8eea67f22c5c8ab6eab3868c1274fcae6de12527df65450355f721c35260f8a1cbad8a3a903d43da43'
+process.env.REFRESH_TOKEN_SECRET = 'ba3c9d5ec2de2ca15fc70374216f5f7f0d77f10b9ec16725efe3120fac6dafa3a8e6aaf8f7e1a0bf542570e3329a34b197419b55ccf37be365cc37393dcb878b'

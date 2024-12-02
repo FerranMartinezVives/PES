@@ -1,0 +1,2302 @@
+openapi: 3.0.3
+info:
+  version: 1.0.0
+  title: Greenovation
+  description: "This is the Open API documentation for the Greenovation API"
+servers:
+  - url: 'https://quason.tech/'
+  - url: 'http://nattech.fib.upc.edu:40370/'
+  - url: 'http://localhost:3000/'
+paths:
+  /users:
+    post:
+      tags:
+        - Users
+      summary: Creates a new user
+      description: New User
+      operationId: createUser
+      requestBody:
+        description: Provide the username, mail and password for the user
+        required: true
+        content:
+          application/json:
+            schema:
+              required:
+                - username
+                - mail
+                - password
+              type: object
+              properties:
+                username:
+                  type: string
+                  example: 'My name'
+                mail:
+                  type: string
+                  example: 'example@mail.com'
+                password:
+                  type: string
+                  example: 'password1234'
+      responses:
+        201:
+          description: User created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        400:
+          description: 'Invalid parameters in body'
+          content:
+            application/json:
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error400'
+    get:
+      tags:
+        - Users
+      summary: Retrieves all Users
+      operationId: getAllUsers
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+  /users/login:
+    post:
+      tags:
+        - Users
+      summary: Logs in a User
+      operationId: loginUser
+      requestBody:
+        description: 'token can be null and user will not recieve notifications'
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  example: 'My name'
+                password:
+                  type: string
+                  example: 'password1234'
+                token:
+                  type: string
+                  example: null
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  accessToken:
+                    type: string
+                    example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoxLCJpYXQiOjE3MTMyNzI4MDMsImV4cCI6MTcxMzI3MzcwM30.b1kV_WYrckV0IzIZZQuSugQMCtTRNwW605sz7ojui1c'
+                  refreshToken:
+                    type: string
+                    example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoxLCJpYXQiOjE3MTMyNzI4MDMsImV4cCI6MTcxMzI3NDAwM30.hyMTyFzyqqc9E3g5mdnk-BLi9uKqjfh_415xceiEUZ0'
+        401:
+          description: 'Unathorized to perform this operation'
+          content:
+            application/json:
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error401'
+        404:
+          description: 'User with this username not found'
+          content:
+            application/json:
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error404'
+  /auth/google:
+    post:
+      summary: Authenticate user with Google OAuth
+      description: Authenticates a user using a Google OAuth token and returns access and refresh tokens.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                token:
+                  type: string
+                  description: Google OAuth token
+                  example: "your_google_oauth_token_here"
+      responses:
+        '200':
+          description: Successful authentication
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    description: User ID
+                    example: 123
+                  accessToken:
+                    type: string
+                    description: Access token for authenticated user
+                    example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                  refreshToken:
+                    type: string
+                    description: Refresh token for authenticated user
+                    example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+        '400':
+          description: Invalid Google token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Invalid Google token"
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Internal server error"
+  /users/refreshToken:
+    post:
+      tags:
+        - Users
+      summary: Refreshes tokens for the user
+      operationId: refreshTokenUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userId:
+                  type: string
+                  example: 1
+                token:
+                  type: string
+                  description: 'This must be the refresh token you get from login or refresh'
+                  example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoxLCJpYXQiOjE3MTMyNzI4MDMsImV4cCI6MTcxMzI3NDAwM30.hyMTyFzyqqc9E3g5mdnk-BLi9uKqjfh_415xceiEUZ0'
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  accessToken:
+                    type: string
+                    example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoxLCJpYXQiOjE3MTMyNzI4MDMsImV4cCI6MTcxMzI3MzcwM30.b1kV_WYrckV0IzIZZQuSugQMCtTRNwW605sz7ojui1c'
+                  refreshToken:
+                    type: string
+                    example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoxLCJpYXQiOjE3MTMyNzI4MDMsImV4cCI6MTcxMzI3NDAwM30.hyMTyFzyqqc9E3g5mdnk-BLi9uKqjfh_415xceiEUZ0'
+        400:
+          description: 'Invalid token'
+          content:
+            application/json:
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error400'
+  /users/logout:
+    delete:
+      tags:
+        - Users
+      summary: Logs out refreshToken for the user
+      operationId: logoutUser
+      parameters:
+        - name: token
+          in: query
+          description: 'This must be the refresh token you get from login or refresh'
+          required: true
+          schema:
+            type: string
+            example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoxLCJpYXQiOjE3MTMyNzI4MDMsImV4cCI6MTcxMzI3NDAwM30.hyMTyFzyqqc9E3g5mdnk-BLi9uKqjfh_415xceiEUZ0'
+      responses:
+        204:
+          description: 'No content'
+  /users/username/{username}:
+    get:
+      tags:
+        - Users
+      summary: Gets the user with the indicated username
+      operationId: getUserByUsername
+      parameters:
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        404:
+          description: 'User with this username not found'
+          content:
+            application/json:
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error404'
+  /users/mail/{mail}:
+    get:
+      tags:
+        - Users
+      summary: Gets the user with the indicated mail
+      operationId: getUserByMail
+      parameters:
+        - name: mail
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        404:
+          description: 'User with this mail not found'
+          content:
+            application/json:
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error404'
+  /users/{id}:
+    get:
+      tags:
+        - Users
+      summary: Gets the user with the indicated id
+      operationId: getUserById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        404:
+          description: 'User with this id not found'
+          content:
+            application/json:
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error404'
+    put:
+      tags:
+        - Users
+      security:
+        - bearerAuth: []
+      summary: Edits the user with the indicated id
+      operationId: putUserById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  example: 'New name'
+                mail:
+                  type: string
+                  example: 'newmail@gmail.com'
+                password:
+                  type: string
+                  example: '12345'
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        400:
+          description: 'Token not present'
+          content:
+            application/json:
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error400'
+        401:
+          description: 'Unauthorized to edit this user'
+          content:
+            application/json:
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error401'
+        403:
+          description: 'Invalid token'
+          content:
+            application/json:
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error403'
+        404:
+          description: 'User with this id not found'
+          content:
+            application/json:
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error404'
+    delete:
+      tags:
+        - Users
+      security:
+        - bearerAuth: []
+      summary: Edits the user with the indicated id
+      operationId: deleteUserById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        204:
+          description: 'No content'
+        401:
+          description: 'Unauthorized to delete this user'
+          content:
+            application/json:
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error401'
+        403:
+          description: 'Invalid token'
+          content:
+            application/json:
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error403'
+        404:
+          description: 'User with this id not found'
+          content:
+            application/json:
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error404'
+  /users/{id}/completableMissions:
+    get:
+      tags:
+        - Users
+        - Missions
+      summary: Retrieves all completable missions by the user with the indicated id
+      operationId: GetCompletableMissionsOfUser
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Missio'
+        404:
+          description: 'User with this id not found'
+          content:
+            application/json:
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error404'
+  /users/{id}/missionsInProgress:
+    get:
+      tags:
+        - Users
+        - Missions
+      summary: Retrieves all missions that the user can and has yet to complete
+      operationId: GetMissionsInProgressOfUser
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: number
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Missio'
+        404:
+          description: 'User with this id not found'
+          content:
+            application/json:
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error404'
+  /users/{id}/availableEvents:
+    get:
+      tags:
+        - Users
+        - Events
+      summary: Retrieves all events associated to the user's missions in progress that he has yet to complete
+      operationId: GetAvailableEventsOfUser
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: number
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Event'
+        404:
+          description: 'User with this id not found'
+          content:
+            application/json:
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error404'
+  /users/{id}/completedEvent:
+    post:
+      tags:
+        - Users
+        - Events
+      security:
+        - bearerAuth: []
+      summary: Indicates that the user has completed an event, substracts the required amount of money from the user and applies the event's benefits/detriments on the user's building
+      operationId: PostCompletedEventOnUser
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: number
+        - name: eventId
+          in: query
+          required: true
+          schema:
+            type: number
+      responses:
+        201:
+          description: successful operation
+        400:
+          description: 'the user cannot complete the event either because they have no mission in progress for which the event can be completed'
+          content:
+            application/json:
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error400'
+        401:
+          description: 'Unauthorized to edit this user'
+          content:
+            application/json:
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error401'
+        404:
+          description: 'Either user with this id not found, or the user does not have a building, or event with indicated id not found'
+          content:
+            application/json:
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error404'
+  /users/{id}/completedMission:
+    post:
+      tags:
+        - Users
+        - Missions
+      security:
+        - bearerAuth: []
+      summary: Indicates that the user has completed a mission, adds the mission's indicated amount of money to the user and applies the mission's benefits to the user's building
+      operationId: PostCompletedMissionOnUser
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: number
+        - name: missionId
+          in: query
+          required: true
+          schema:
+            type: number
+      responses:
+        201:
+          description: successful operation
+        400:
+          description: 'Either the user cannot complete the mission because they have not completed enough of the events associated to the mission, or they have no mission in progress with the indicated id'
+          content:
+            application/json:
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error400'
+        401:
+          description: 'Unauthorized to edit this user'
+          content:
+            application/json:
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error401'
+        404:
+          description: 'Either user with this id not found, or the user does not have a building, or mission with indicated id not found'
+          content:
+            application/json:
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error404'
+  /users/{id}/completedMissions:
+    delete:
+      tags:
+        - Users
+        - Missions
+      security:
+        - bearerAuth: []
+      summary: Resets all completed missions of the user with the indicated id
+      operationId: ResetCompletedMissions
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: number
+      responses:
+        204:
+          description: successful operation
+        401:
+          description: 'Unauthorized'
+          content:
+            application/json:
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error401'
+        404:
+          description: 'user with this id not found'
+          content:
+            application/json:
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error404'
+  /edificis:
+    post:
+      tags:
+        - Edificis
+      security:
+        - bearerAuth: []
+      summary: Creates a building for the user bearer of the token
+      operationId: postEdifici
+      parameters:
+        - name: default
+          in: query
+          description: 'If value equals true building will be built from default template'
+          schema:
+            type: string
+            enum:
+              - 'true'
+              - 'false'
+            example: 'false'
+        - name: num_cas
+          in: query
+          description: 'If default is not true the building will be created using the real life building identified with this parameter'
+          schema:
+            type: string
+            example: 'WWR5FS9Z3'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nom:
+                  type: string
+                  example: 'BUILDING FROM BODY'
+                poblacio:
+                  type: string
+                  example: 'Barcelona'
+                direccio:
+                  type: string
+                  example: 'Avinguda DIAGONAL 1'
+                energia:
+                  type: number
+                  example: 100
+                emissions:
+                  type: number
+                  example: 100
+                ve:
+                  type: boolean
+                  example: true
+                solar_fv:
+                  type: boolean
+                  example: true
+                solar_ter:
+                  type: boolean
+                  example: true
+                classificacio:
+                  type: string
+                  example: 'A'
+      responses:
+        201:
+          description: Building created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Edifici'
+        400:
+          description: 'Invalid parameters'
+          content:
+            application/json:
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error400'
+        401:
+          description: 'Unauthorized to edit this building'
+          content:
+            application/json:
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error401'
+        403:
+          description: 'Invalid token'
+          content:
+            application/json:
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error403'
+        404:
+          description: 'No building found with this identifier'
+          content:
+            application/json:
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error404'
+    get:
+      tags:
+        - Edificis
+      summary: Retrieves all Buildings
+      operationId: getAllBuildings
+      parameters:
+        - name: lletra
+          in: query
+          description: 'Filter building by indicated leter'
+          schema:
+            type: string
+            example: 'A'
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Edifici'
+  /edificis/{id}/aplicarMillora:
+    post:
+      tags:
+        - Edificis
+      summary: Applies an Upgrade to the building with the indicated id
+      operationId: ApplyUpgrade
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: milloraId
+          in: query
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: 'OK'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/examples/message'
+        400:
+          description: 'Invalid parameters'
+          content:
+            application/json:
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error400'
+        404:
+          description: 'No existeix edifici'
+          content:
+            application/json:
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error404'
+  /edificis/{id}/aplicacions:
+    get:
+      tags:
+        - Edificis
+      summary: Gets all the applied Upgrades on the building with the indicated id
+      operationId: getUpgradesOfABuilding
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Aplicacio'
+        400:
+          description: 'Invalid parameters in body'
+          content:
+            application/json:
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error400'
+        404:
+          description: 'Aquest edifici no té millores aplicades'
+          content:
+            application/json:
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error404'
+  /edificis/{id}/milloresAplicables:
+    get:
+      tags:
+        - Edificis
+      summary: Gets all the Upgrades that can be applied to the building with the indicated id
+      operationId: getPossibleUpgradesOfABuilding
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: categoriaId
+          in: query
+          required: true
+          schema:
+            type: integer
+        - name: esDEdifici
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Millora'
+        400:
+          description: 'Invalid parameters in body'
+          content:
+            application/json:
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error400'
+        404:
+          description: 'Aquest edifici no té millores aplicades'
+          content:
+            application/json:
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error404'
+  /edificis/user/{userId}:
+    get:
+      tags:
+        - Edificis
+      summary: Gets the building that belongs to the user with the indicated id
+      operationId: getBuildingByUserId
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Edifici'
+        404:
+          description: 'No building found for this user'
+          content:
+            application/json:
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error404'
+    put:
+      tags:
+        - Edificis
+      security:
+        - bearerAuth: []
+      summary: Edits the building that belongs to the user with the indicated id
+      operationId: editBuildingByUserId
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nom:
+                  type: string
+                  example: 'BUILDING FROM BODY'
+                poblacio:
+                  type: string
+                  example: 'Barcelona'
+                direccio:
+                  type: string
+                  example: 'Avinguda DIAGONAL 1'
+                energia:
+                  type: number
+                  example: 100
+                emissions:
+                  type: number
+                  example: 100
+                ve:
+                  type: boolean
+                  example: true
+                solar_fv:
+                  type: boolean
+                  example: true
+                solar_ter:
+                  type: boolean
+                  example: true
+                classificacio:
+                  type: string
+                  example: 'A'
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Edifici'
+        400:
+          description: 'Invalid parameters'
+          content:
+            application/json:
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error400'
+        401:
+          description: 'Unauthorized to edit this building'
+          content:
+            application/json:
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error401'
+        403:
+          description: 'Invalid token'
+          content:
+            application/json:
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error403'
+        404:
+          description: 'Building with this userId not found'
+          content:
+            application/json:
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error404'
+    delete:
+      tags:
+        - Edificis
+      security:
+        - bearerAuth: []
+      summary: Deletes the building that belongs to the user with the indicated id
+      operationId: deleteBuildingByUserId
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        204:
+          description: 'No content'
+        401:
+          description: 'Unauthorized to delete this building'
+          content:
+            application/json:
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error401'
+        403:
+          description: 'Invalid token'
+          content:
+            application/json:
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error403'
+        404:
+          description: 'Building with this userId not found'
+          content:
+            application/json:
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error404'
+  /edificis/recompensesRanking/{lletra}:
+    get:
+      tags:
+        - Edificis
+      summary: Gets the ranking rewards of the indicated certificate
+      operationId: getRankingRewardsByCertificate
+      parameters:
+        - name: lletra
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Recompensa'
+        404:
+          description: 'No building found for this user'
+          content:
+            application/json:
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error404'
+  /lletres:
+    get:
+      tags:
+        - Lletra Energètica
+      summary: Retrieves all Energy Letters
+      operationId: getAllEnergyLetters
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LletraEnergetica'
+  /lletres/{id}:
+    get:
+      tags:
+        - Lletra Energètica
+      summary: Gets the energy letter with the indicated id
+      operationId: getEnergyLettersById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LletraEnergetica'
+        404:
+          description: 'No existeix cap lletra amb aquesta etiqueta'
+          content:
+            application/json:
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error404'
+  /lletres/perLletra/{lletra}:
+    get:
+      tags:
+        - Lletra Energètica
+      summary: Gets the energy letter with the indicated letter
+      operationId: getEnergyLettersByLetter
+      parameters:
+        - name: lletra
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LletraEnergetica'
+        404:
+          description: 'No existeix cap lletra amb aquest id'
+          content:
+            application/json:
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error404'
+  /dadesObertes:
+    get:
+      tags:
+        - Dades Obertes
+      summary: Returns all results from DadesObertes having filtered them according to given parameters. For more details consult https://dev.socrata.com/foundry/analisi.transparenciacatalunya.cat/j6ii-t3w2
+      operationId: getEdificisDadesObertes
+      parameters:
+        - name: num_cas
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: adre_a
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: numero
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: escala
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: pis
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: porta
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: codi_postal
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: poblacio
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: comarca
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: nom_provincia
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: codi_poblacio
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: codi_comarca
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: codi_provincia
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: referencia_cadastral
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: zona_climatica
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: metres_cadastre
+          in: query
+          required: false
+          schema:
+            type: number
+        - name: us_edifici
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: qualificaci_de_consum_d
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: energia_prim_ria_no_renovable
+          in: query
+          required: false
+          schema:
+            type: number
+        - name: qualificacio_d_emissions
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: emissions_de_co2
+          in: query
+          required: false
+          schema:
+            type: number
+        - name: consum_d_energia_final
+          in: query
+          required: false
+          schema:
+            type: number
+        - name: cost_anual_aproximat_d_energia
+          in: query
+          required: false
+          schema:
+            type: number
+        - name: vehicle_electric
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: solar_termica
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: solar_fotovoltaica
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: sistema_biomassa
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: xarxa_districte
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: energia_geotermica
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: eina_de_certificacio
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: valor_aillaments
+          in: query
+          required: false
+          schema:
+            type: number
+        - name: valor_finestres
+          in: query
+          required: false
+          schema:
+            type: number
+        - name: motiu_de_la_certificacio
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: valor_aillaments_cte
+          in: query
+          required: false
+          schema:
+            type: number
+        - name: valor_finestres_cte
+          in: query
+          required: false
+          schema:
+            type: number
+        - name: utm_x
+          in: query
+          required: false
+          schema:
+            type: number
+        - name: utm_y
+          in: query
+          required: false
+          schema:
+            type: number
+        - name: normativa_construcci
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: tipus_tramit
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: qualificaci_emissions
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: emissions_calefacci
+          in: query
+          required: false
+          schema:
+            type: number
+        - name: qualificaci_emissions_1
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: emissions_refrigeraci
+          in: query
+          required: false
+          schema:
+            type: number
+        - name: qualificaci_emissions_acs
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: emissions_acs
+          in: query
+          required: false
+          schema:
+            type: number
+        - name: emissions_enllumenament
+          in: query
+          required: false
+          schema:
+            type: number
+        - name: qualificaci_energia_calefacci
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: energia_calefacci
+          in: query
+          required: false
+          schema:
+            type: number
+        - name: qualificaci_energia
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: energia_refrigeraci
+          in: query
+          required: false
+          schema:
+            type: number
+        - name: qualificaci_energia_acs
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: energia_acs
+          in: query
+          required: false
+          schema:
+            type: number
+        - name: energia_enllumenament
+          in: query
+          required: false
+          schema:
+            type: number
+        - name: qualificaci_energia_calefacci_1
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: energia_calefacci_demanda
+          in: query
+          required: false
+          schema:
+            type: number
+        - name: qualificaci_energia_2
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: energia_refrigeraci_demanda
+          in: query
+          required: false
+          schema:
+            type: number
+        - name: longitud
+          in: query
+          required: false
+          schema:
+            type: number
+        - name: latitud
+          in: query
+          required: false
+          schema:
+            type: number
+        - name: rehabilitacio_energetica
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: data_entrada
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DadesObertesEdifici'
+        400:
+          description: 'Invalid parameters in query'
+          content:
+            application/json:
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error400'
+  /dadesObertes/alternatives:
+    get:
+      tags:
+        - Dades Obertes
+      summary: Returns all results from DadesObertes of buildings within a radius centered at indicated point.
+      operationId: getAlternativesDadesObertes
+      parameters:
+        - name: latitude
+          in: query
+          required: false
+          schema:
+            type: number
+            example: 41.388099
+        - name: longitude
+          in: query
+          required: false
+          schema:
+            type: number
+            example: 2.148293
+        - name: radius
+          in: query
+          required: false
+          schema:
+            type: number
+            example: 100
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DadesObertesEdifici'
+        400:
+          description: 'Invalid parameters in query'
+          content:
+            application/json:
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error400'
+  /categories:
+    get:
+      tags:
+        - Categoria
+      summary: Retrieves all Categories
+      operationId: getAllCategories
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Categoria'
+  /categories/{id}:
+    get:
+      tags:
+        - Categoria
+      summary: Gets the category with the indicated id
+      operationId: getCategoryById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Categoria'
+        404:
+          description: 'No existeix cap categoria amb aquest id'
+          content:
+            application/json:
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error404'
+  /millores:
+    get:
+      tags:
+        - Millores
+      summary: Retrieves all Upgrades
+      operationId: getAllUpgrades
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Millora'
+  /millores/{id}:
+    get:
+      tags:
+        - Millores
+      summary: Gets the upgrade with the indicated id
+      operationId: getUpgradeById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Millora'
+        404:
+          description: 'No existeix la millora'
+          content:
+            application/json:
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error404'
+  /millores/milloresDEdifici:
+    get:
+      tags:
+        - Millores
+      summary: Retrieves all general Upgrades of a specific category and energy letter
+      operationId: getGeneralUpgrades
+      parameters:
+        - name: categoriaId
+          in: query
+          required: true
+          schema:
+            type: integer
+        - name: lletraId
+          in: query
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Millora'
+        404:
+          description: 'No hi ha millores edifici'
+          content:
+            application/json:
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error404'
+  /millores/milloresPisAPis:
+    get:
+      tags:
+        - Millores
+      summary: Retrieves all Upgrades of a specific category and energy letter
+      operationId: getUpgrades
+      parameters:
+        - name: categoriaId
+          in: query
+          required: true
+          schema:
+            type: integer
+        - name: lletraId
+          in: query
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Millora'
+        404:
+          description: 'No hi ha millores pis a pis'
+          content:
+            application/json:
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error404'
+  /events:
+    get:
+      tags:
+        - Events
+      summary: Retrieves all Events
+      operationId: getAllEvents
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Event'
+  /events/{id}:
+    get:
+      tags:
+        - Events
+      summary: Gets the event with the indicated id
+      operationId: getEventById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Event'
+        404:
+          description: 'No event found with this id'
+          content:
+            application/json:
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error404'
+  /events/lletra/{lletra}:
+    get:
+      tags:
+        - Events
+      summary: Retrieves all events with the indicated energy letter
+      operationId: getEventsByLetter
+      parameters:
+        - name: lletra
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Event'
+        404:
+          description: 'The letter does not exist'
+          content:
+            application/json:
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error404'
+  /events/lletraIAnteriors/{lletra}:
+    get:
+      tags:
+        - Events
+      summary: Retrieves all events with the indicated energy letter or with a worse energy letter
+      operationId: getEventsByLetterAndPrevious
+      parameters:
+        - name: lletra
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Event'
+        404:
+          description: 'The letter does not exist'
+          content:
+            application/json:
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error404'
+  /missions:
+    get:
+      tags:
+        - Missions
+      summary: Retrieves all Missions
+      operationId: getAllMissions
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Missio'
+  /missions/{id}:
+    get:
+      tags:
+        - Missions
+      summary: Retrieves the missions with the indicated id
+      operationId: getMissionById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Missio'
+        404:
+          description: 'The mission does not exist'
+          content:
+            application/json:
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error404'
+  /missions/{id}/events:
+    get:
+      tags:
+        - Missions
+      summary: Retrieves all events associated to the mission with the indicated id
+      operationId: getEventsOfMission
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: number
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Event'
+        404:
+          description: 'The mission does not exist'
+          content:
+            application/json:
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error404'
+  /missions/lletra/{lletra}:
+    get:
+      tags:
+        - Missions
+      summary: Retrieves the missions with the indicated certificated
+      operationId: getMissionsByCertificate
+      parameters:
+        - name: lletra
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Missio'
+        404:
+          description: 'The letter does not exist'
+          content:
+            application/json:
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error404'
+  /missions/lletraIAnteriors/{lletra}:
+    get:
+      tags:
+        - Missions
+      summary: Retrieves the missions with the indicated certificated or higher
+      operationId: getMissionsByCertificateAndHigher
+      parameters:
+        - name: lletra
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Missio'
+        404:
+          description: 'The letter does not exist'
+          content:
+            application/json:
+              examples:
+                errorExample:
+                  $ref: '#/components/examples/error404'
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        username:
+          type: string
+          example: 'My username'
+        mail:
+          type: string
+          example: 'example@mail.com'
+        password:
+          type: string
+          example: 'qMJt6gA^)V@e?:#x'
+        diners:
+          type: integer
+          example: 15000
+        avatar:
+          type: integer
+          example: 1
+        idioma:
+          type: string
+          example: 'en'
+        createdAt:
+          type: string
+          example: '2023-11-22T19:29:35.963Z'
+        updatedAt:
+          type: string
+          example: '2023-11-22T19:29:35.963Z'
+    Edifici:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        nom:
+          type: string
+          example: 'WWR5FS9Z3'
+        poblacio:
+          type: string
+          example: 'Sant Gregori'
+        direccio:
+          type: string
+          example: 'Carrer FRANCESC DE VERNTALLAT 20'
+        energia:
+          type: number
+          example: 35.67
+        emissions:
+          type: number
+          example: 6.95
+        ve:
+          type: boolean
+          example: true
+        solar_fv:
+          type: boolean
+          example: true
+        solar_ter:
+          type: boolean
+          example: true
+        classificacio:
+          type: string
+          example: 'A'
+        userId:
+          type: integer
+          example: 1
+        felicitatVeins:
+          type: integer
+          example: 75
+        dinersAlMes:
+          type: integer
+          example: 100
+        energiaIni:
+          type: number
+          example: 35.67
+        classificacioIni:
+          type: string
+          example: 'A'
+        createdAt:
+          type: string
+          example: '2023-11-22T19:29:35.963Z'
+        updatedAt:
+          type: string
+          example: '2023-11-22T19:29:35.963Z'
+    DadesObertesEdifici:
+      type: object
+      properties:
+        num_cas:
+          type: string
+        adre_a:
+          type: string
+        numero:
+          type: string
+        escala:
+          type: string
+        pis:
+          type: string
+        porta:
+          type: string
+        codi_postal:
+          type: string
+        poblacio:
+          type: string
+        comarca:
+          type: string
+        nom_provincia:
+          type: string
+        codi_poblacio:
+          type: string
+        codi_comarca:
+          type: string
+        codi_provincia:
+          type: string
+        referencia_cadastral:
+          type: string
+        zona_climatica:
+          type: string
+        metres_cadastre:
+          type: number
+        us_edifici:
+          type: string
+        qualificaci_de_consum_d:
+          type: string
+        energia_prim_ria_no_renovable:
+          type: number
+        qualificacio_d_emissions:
+          type: string
+        emissions_de_co2:
+          type: number
+        consum_d_energia_final:
+          type: number
+        cost_anual_aproximat_d_energia:
+          type: number
+        vehicle_electric:
+          type: string
+        solar_termica:
+          type: string
+        solar_fotovoltaica:
+          type: string
+        sistema_biomassa:
+          type: string
+        xarxa_districte:
+          type: string
+        energia_geotermica:
+          type: string
+        eina_de_certificacio:
+          type: string
+        valor_aillaments:
+          type: number
+        valor_finestres:
+          type: number
+        motiu_de_la_certificacio:
+          type: string
+        valor_aillaments_cte:
+          type: number
+        valor_finestres_cte:
+          type: number
+        utm_x:
+          type: number
+        utm_y:
+          type: number
+        normativa_construcci:
+          type: string
+        tipus_tramit:
+          type: string
+        qualificaci_emissions:
+          type: string
+        emissions_calefacci:
+          type: number
+        qualificaci_emissions_1:
+          type: string
+        emissions_refrigeraci:
+          type: number
+        qualificaci_emissions_acs:
+          type: string
+        emissions_acs:
+          type: number
+        emissions_enllumenament:
+          type: number
+        qualificaci_energia_calefacci:
+          type: string
+        energia_calefacci:
+          type: number
+        qualificaci_energia:
+          type: string
+        energia_refrigeraci:
+          type: number
+        qualificaci_energia_acs:
+          type: string
+        energia_acs:
+          type: number
+        energia_enllumenament:
+          type: number
+        qualificaci_energia_calefacci_1:
+          type: string
+        energia_calefacci_demanda:
+          type: number
+        qualificaci_energia_2:
+          type: string
+        energia_refrigeraci_demanda:
+          type: number
+        longitud:
+          type: number
+        latitud:
+          type: number
+        georeferencia:
+          type: object
+          properties:
+            type:
+              type: string
+            coordinates:
+              type: array
+              items:
+                type: number
+        rehabilitacio_energetica:
+          type: string
+        data_entrada:
+          type: string
+    LletraEnergetica:
+      type: object
+      properties:
+        id:
+          type: number
+          example: 1
+        lletra:
+          type: string
+          example: 'C'
+        maxConsum:
+          type: number
+          example: 45
+        maxEmissions:
+          type: number
+          example: 13
+        costInspeccio:
+          type: number
+          example: 0
+        createdAt:
+          type: string
+          example: '2023-11-22T19:29:35.963Z'
+        updatedAt:
+          type: string
+          example: '2023-11-22T19:29:35.963Z'
+    Categoria:
+      type: object
+      properties:
+        id:
+          type: number
+          example: 1
+        nom:
+          type: string
+          example: 'airConditioning'
+        createdAt:
+          type: string
+          example: '2023-11-22T19:29:35.963Z'
+        updatedAt:
+          type: string
+          example: '2023-11-22T19:29:35.963Z'
+    Millora:
+      type: object
+      properties:
+        id:
+          type: number
+          example: 1
+        nomCat:
+          type: string
+          example: 'Millora de la il·luminació amb LEDs.'
+        nomEsp:
+          type: string
+          example: 'Mejora de la iluminación con LEDs.'
+        nomEng:
+          type: string
+          example: 'LED Lighting Upgrade'
+        descripcioCat:
+          type: string
+          example: 'Substituir totes les llums incandescents i fluorescents per llums LEDs.'
+        descripcioEsp:
+          type: string
+          example: 'Sustituir todas las luces incandescentes y fluorescentes por luces LEDs.'
+        descripcioEng:
+          type: string
+          example: 'Replace all old incandescent and fluorescent lights with energy-efficient LED lights.'
+        reasoningCat:
+          type: string
+          example: 'Els LED consumeixen menys electricitat i duren més, el que redueix els costs de manteniment i ús general energètic del teu edifici.'
+        reasoningEsp:
+          type: string
+          example: 'Los LED consumen menos electricidad y duran más, lo que reduce el uso general de energía y los costes de mantenimiento del edificio.'
+        reasoningEng:
+          type: string
+          example: 'LEDs consume less electricity and last longer, reducing the building’s overall energy usage and maintenance costs.'
+        cost:
+          type: number
+          example: 2000
+        reduccioEnergia:
+          type: number
+          example: 5
+        reduccioCO2:
+          type: number
+          example: 0
+        milloraFelicitat:
+          type: number
+          example: 0
+        esDEdifici:
+          type: boolean
+          example: true
+        tempsDObra:
+          type: number
+          example: 0
+        categoriaId:
+          type: number
+          example: 1
+        lletraId:
+          type: number
+          example: 1
+        createdAt:
+          type: string
+          example: '2023-11-22T19:29:35.963Z'
+        updatedAt:
+          type: string
+          example: '2023-11-22T19:29:35.963Z'
+    Aplicacio:
+      type: object
+      properties:
+        edificiId:
+          type: number
+          example: 1
+        milloraId:
+          type: number
+          example: 1
+        totalCompres:
+          type: number
+          example: 1
+        createdAt:
+          type: string
+          example: '2023-11-22T19:29:35.963Z'
+        updatedAt:
+          type: string
+          example: '2023-11-22T19:29:35.963Z'
+    Recompensa:
+      type: object
+      properties:
+        id:
+          type: number
+          example: 1
+        posicio:
+          type: string
+          example: "1st"
+        recompensa:
+          type: number
+          example: 100
+        createdAt:
+          type: string
+          example: '2023-11-22T19:29:35.963Z'
+        updatedAt:
+          type: string
+          example: '2023-11-22T19:29:35.963Z'
+    Event:
+      type: object
+      properties:
+        id:
+          type: number
+          example: 1
+        nameCat:
+          type: string
+          example: "No hi ha aigua calenta!"
+        nameEsp:
+          type: string
+          example: "¡No hay agua caliente!"
+        nameEng:
+          type: string
+          example: "There's no hot water!"
+        descriptionCat:
+          type: string
+          example: "Repara la caldera d'aquest veí."
+        descriptionEsp:
+          type: string
+          example: "Repara la caldera de este vecino."
+        descriptionEng:
+          type: string
+          example: "Repair this neighbor's boiler."
+        energy:
+          type: number
+          example: 10
+        CO2:
+          type: number
+          example: -5
+        happiness:
+          type: number
+          example: 25
+        money:
+          type: number
+          example: 50
+        lletraId:
+          type: number
+          example: 6
+        createdAt:
+          type: string
+          example: '2023-11-22T19:29:35.963Z'
+        updatedAt:
+          type: string
+          example: '2023-11-22T19:29:35.963Z'
+    Missio:
+      type: object
+      properties:
+        id:
+          type: number
+          example: 1
+        nameCat:
+          type: string
+          example: "Primera missió"
+        nameEsp:
+          type: string
+          example: "Primera misión"
+        nameEng:
+          type: string
+          example: "First mission"
+        descriptionCat:
+          type: string
+          example: "Completa un esdeveniment qualsevol."
+        descriptionEsp:
+          type: string
+          example: "Completa un evento cualquiera."
+        descriptionEng:
+          type: string
+          example: "Complete any event."
+        eventsForCompletion:
+          type: number
+          example: 1
+        lletraId:
+          type: number
+          example: 7
+        energy:
+          type: number
+          example: 20
+        CO2:
+          type: number
+          example: 10
+        happiness:
+          type: number
+          example: 100
+        money:
+          type: number
+          example: 1000
+        createdAt:
+          type: string
+          example: '2023-11-22T19:29:35.963Z'
+        updatedAt:
+          type: string
+          example: '2023-11-22T19:29:35.963Z'
+  examples:
+    message:
+      value: 'Successful'
+    error400:
+      value:
+        message: 'Invalid information entered'
+    error401:
+      value:
+        message: 'Unauthorized to perform this operation'
+    error403:
+      value:
+        message: 'Invalid token'
+    error404:
+      value:
+        message: 'Not found'
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

@@ -1,0 +1,18 @@
+[
+  {
+    "posicio": "Top 1",
+    "recompensa": 100
+  },
+  {
+    "posicio": "Top 2",
+    "recompensa": 50
+  },
+  {
+    "posicio": "Top 3",
+    "recompensa": 25
+  },
+  {
+    "posicio": "Del 4º al 10º",
+    "recompensa": 10
+  }
+]

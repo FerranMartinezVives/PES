@@ -1,0 +1,49 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the "main" branch
+  push:
+    branches: [ "main", "dev", "testing-pipeline" ]
+  pull_request:
+    branches: [ "main", "dev", "testing-pipeline" ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # https://exercism.org/docs/building/github/gha-best-practices#h-set-timeouts-for-workflows
+    timeout-minutes: 15
+    # The type of runner that the job will run on
+    # https://exercism.org/docs/building/github/gha-best-practices#h-pin-test-runners-to-version
+    runs-on: ubuntu-22.04
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so the job can access it
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          cache: 'npm'
+      - run: npm ci
+
+      - name: Typecheck project
+        run: |
+          npm run build
+
+      - name: Run linter
+        run: |
+          npm run lint
+
+      - name: Run tests
+        run: |
+          npm run test
+
+

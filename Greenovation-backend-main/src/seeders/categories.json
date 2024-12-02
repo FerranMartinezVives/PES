@@ -1,0 +1,17 @@
+[
+  {
+    "nom": "heatingSystem"
+  },
+  {
+    "nom": "airConditioning"
+  },
+  {
+    "nom": "energy"
+  },
+  {
+    "nom": "facade"
+  },
+  {
+    "nom": "homeAppliances"
+  }
+]

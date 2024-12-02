@@ -1,0 +1,68 @@
+networks:
+  app-tier:
+    driver: bridge
+
+services:
+  db:
+    image: "mysql"
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/db_password
+      MYSQL_DATABASE: sys
+    networks:
+      - app-tier
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h","localhost"]
+      timeout: 20s
+      retries: 10
+    secrets:
+      - db_password
+
+  web:
+    networks:
+      - app-tier
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      DB_NAME: sys
+      DB_USER: root
+      DB_HOST: db
+      DB_DRIVER: mysql
+      DB_PORT: 3306
+      CORS_ORIGIN: ${CORS_ORIGIN}
+    depends_on:
+      db:
+        condition: service_healthy
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    secrets:
+      - db_password
+      - refresh_token
+      - access_token
+
+  phpmyadmin:
+    networks:
+      - app-tier
+    depends_on:
+      - db
+      - web
+    image: phpmyadmin
+    restart: always
+    ports:
+      - 8082:80
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/db_password
+    secrets:
+      - db_password
+
+secrets:
+  db_password:
+    file: ./secrets/db_password.txt
+  access_token:
+    file: ./secrets/access_token.txt
+  refresh_token:
+    file: ./secrets/refresh_token.txt

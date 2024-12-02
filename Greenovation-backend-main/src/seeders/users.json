@@ -1,0 +1,212 @@
+[
+  {
+    "username": "MysticWanderer",
+    "password": "AbcD1234",
+    "mail": "mysticwanderer@gmail.com",
+    "avatar": 4
+  },
+  {
+    "username": "UrbanExplorer",
+    "password": "XyzP5678",
+    "mail": "urbanexplorer@gmail.com",
+    "avatar": 7
+  },
+  {
+    "username": "GalacticDreamer",
+    "password": "QweR4321",
+    "mail": "galacticdreamer@gmail.com",
+    "avatar": 2
+  },
+  {
+    "username": "SilverLining88",
+    "password": "AsdF0987",
+    "mail": "silverlining88@gmail.com",
+    "avatar": 9
+  },
+  {
+    "username": "PixelVoyager",
+    "password": "ZxcV5678",
+    "mail": "pixelvoyager@gmail.com",
+    "avatar": 1
+  },
+  {
+    "username": "VelvetSunset",
+    "password": "PoiU7654",
+    "mail": "velvetsunset@gmail.com",
+    "avatar": 3
+  },
+  {
+    "username": "QuantumLeap",
+    "password": "LkjH1234",
+    "mail": "quantumleap@gmail.com",
+    "avatar": 6
+  },
+  {
+    "username": "SapphireVoyage",
+    "password": "MnbV6789",
+    "mail": "sapphirevoyage@gmail.com",
+    "avatar": 8
+  },
+  {
+    "username": "EchoChamber",
+    "password": "VcxZ2345",
+    "mail": "echochamber@gmail.com",
+    "avatar": 2
+  },
+  {
+    "username": "NebulaNavigator",
+    "password": "PlmK5432",
+    "mail": "nebulanavigator@gmail.com",
+    "avatar": 5
+  },
+  {
+    "username": "CosmicHiker",
+    "password": "BgtH8765",
+    "mail": "cosmichiker@gmail.com",
+    "avatar": 9
+  },
+  {
+    "username": "SilentWhisperer",
+    "password": "KjhL6789",
+    "mail": "silentwhisperer@gmail.com",
+    "avatar": 4
+  },
+  {
+    "username": "EnchantedForest",
+    "password": "FghJ1234",
+    "mail": "enchantedforest@gmail.com",
+    "avatar": 7
+  },
+  {
+    "username": "MidnightScribe",
+    "password": "YuiT4567",
+    "mail": "midnightscribe@gmail.com",
+    "avatar": 1
+  },
+  {
+    "username": "AuroraGlow",
+    "password": "WerP7890",
+    "mail": "auroraglow@gmail.com",
+    "avatar": 6
+  },
+  {
+    "username": "EmeraldQuest",
+    "password": "AsdQ1234",
+    "mail": "emeraldquest@gmail.com",
+    "avatar": 3
+  },
+  {
+    "username": "WhisperingWillow",
+    "password": "FghJ4567",
+    "mail": "whisperingwillow@gmail.com",
+    "avatar": 8
+  },
+  {
+    "username": "CrystalZephyr",
+    "password": "ZxcV6789",
+    "mail": "crystalzephyr@gmail.com",
+    "avatar": 2
+  },
+  {
+    "username": "ShadowChaser",
+    "password": "MnbL7890",
+    "mail": "shadowchaser@gmail.com",
+    "avatar": 5
+  },
+  {
+    "username": "LuminousLuna",
+    "password": "PoiU1234",
+    "mail": "luminousluna@gmail.com",
+    "avatar": 9
+  },
+  {
+    "username": "CelestialJourney",
+    "password": "VcxZ3456",
+    "mail": "celestialjourney@gmail.com",
+    "avatar": 4
+  },
+  {
+    "username": "DreamWeaver",
+    "password": "LkjP4567",
+    "mail": "dreamweaver@gmail.com",
+    "avatar": 7
+  },
+  {
+    "username": "SolsticeSeeker",
+    "password": "BgtH7890",
+    "mail": "solsticeseeker@gmail.com",
+    "avatar": 1
+  },
+  {
+    "username": "ElectricPulse",
+    "password": "KjhL3456",
+    "mail": "electricpulse@gmail.com",
+    "avatar": 6
+  },
+  {
+    "username": "RadiantEclipse",
+    "password": "FghJ6789",
+    "mail": "radianteclipse@gmail.com",
+    "avatar": 3
+  },
+  {
+    "username": "MoonlitTraveler",
+    "password": "YuiT1234",
+    "mail": "moonlittraveler@gmail.com",
+    "avatar": 8
+  },
+  {
+    "username": "StarryNight22",
+    "password": "WerP4567",
+    "mail": "starrynight22@gmail.com",
+    "avatar": 2
+  },
+  {
+    "username": "NovaBlazer",
+    "password": "AsdQ7890",
+    "mail": "novablazer@gmail.com",
+    "avatar": 5
+  },
+  {
+    "username": "VelvetGalaxy",
+    "password": "FghJ3456",
+    "mail": "velvetgalaxy@gmail.com",
+    "avatar": 9
+  },
+  {
+    "username": "AstralVoyager",
+    "password": "ZxcV1234",
+    "mail": "astralvoyager@gmail.com",
+    "avatar": 4
+  },
+  {
+    "username": "GalacticGazer",
+    "password": "MnbL4567",
+    "mail": "galacticgazer@gmail.com",
+    "avatar": 7
+  },
+  {
+    "username": "EtherealEcho",
+    "password": "PoiU7890",
+    "mail": "etherealecho@gmail.com",
+    "avatar": 1
+  },
+  {
+    "username": "MysticEchoes",
+    "password": "VcxZ1234",
+    "mail": "mysticechoes@gmail.com",
+    "avatar": 6
+  },
+  {
+    "username": "PhoenixFlare",
+    "password": "LkjP3456",
+    "mail": "phoenixflare@gmail.com",
+    "avatar": 3
+  },
+  {
+    "username": "TwilightWanderer",
+    "password": "BgtH1234",
+    "mail": "twilightwanderer@gmail.com",
+    "avatar": 8
+  }
+]

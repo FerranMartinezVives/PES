@@ -1,0 +1,122 @@
+[
+  {
+    "nameCat": "No hi ha aigua calenta!",
+    "nameEsp": "¡No hay agua caliente!",
+    "nameEng": "There's no hot water!",
+    "descriptionCat": "Repara la caldera d'aquest veí.",
+    "descriptionEsp": "Repara la caldera de este vecino.",
+    "descriptionEng": "Repair this neighbor's boiler.",
+    "energy": 10,
+    "CO2": 10,
+    "happiness": 25,
+    "money": 50
+  },
+  {
+    "nameCat": "L'aire acondicionat no funciona!",
+    "nameEsp": "¡El aire acondicionado no funciona!",
+    "nameEng": "The AC doesn't work!",
+    "descriptionCat": "Repara l'aire acondicinonat d'aquest veí.",
+    "descriptionEsp": "Repara el aire acondicionado de este vecino.",
+    "descriptionEng": "Repair this neighbor's AC.",
+    "energy": 5,
+    "CO2": 5,
+    "happiness": 25,
+    "money": 50
+  },
+  {
+    "nameCat": "Qui ha apagat els llums?",
+    "nameEsp": "¿Quién ha apagado las luces?",
+    "nameEng": "Who turned off the lights?",
+    "descriptionCat": "Revisa l'interruptor diferencial d'aquest veí.",
+    "descriptionEsp": "Revisa el interruptor diferencial de este vecino.",
+    "descriptionEng": "Check this neighbor's residual-current device.",
+    "energy": 0,
+    "CO2": 0,
+    "happiness": 10,
+    "money": 20
+  },
+  {
+    "nameCat": "M'ha marxat la connexió a internet!",
+    "nameEsp": "¡Se me ha ido la conexión a internet!",
+    "nameEng": "I lost my internet connection!",
+    "descriptionCat": "Canvia el router d'aquest veí.",
+    "descriptionEsp": "Cambia el router de este vecino.",
+    "descriptionEng": "Replace this neighbor's router.",
+    "energy": 5,
+    "CO2": 0,
+    "happiness": 20,
+    "money": 25
+  },
+  {
+    "nameCat": "Em perdré l'episodi d'avui!",
+    "nameEsp": "¡Me voy a perder el episodio de hoy!",
+    "nameEng": "I'll miss today's episode!",
+    "descriptionCat": "Repara la televisió d'aquest veí.",
+    "descriptionEsp": "Repara la televisión de este vecino.",
+    "descriptionEng": "Repair this neighbor's TV.",
+    "energy": 0,
+    "CO2": 0,
+    "happiness": 20,
+    "money": 35
+  },
+  {
+    "nameCat": "Avui toca festa i barbacoa!",
+    "nameEsp": "¡Hoy toca fiesta y barbacoa!",
+    "nameEng": "Barbecue party today!",
+    "descriptionCat": "Organitza i celebra una barbacoa amb els veïns.",
+    "descriptionEsp": "Organiza y celebra una barbacoa con los vecinos.",
+    "descriptionEng": "Organize and celebrate a barbecue party with the neighbors.",
+    "energy": 0,
+    "CO2": 10,
+    "happiness": 30,
+    "money": 60
+  },
+  {
+    "nameCat": "Quin desastre de gespa!",
+    "nameEsp": "¡Qué desastre de césped!",
+    "nameEng": "The lawn's a mess!",
+    "descriptionCat": "Neteja i talla la gespa del jardí.",
+    "descriptionEsp": "Limpia y corta el césped del jardín.",
+    "descriptionEng": "Clean and mow the lawn.",
+    "energy": 10,
+    "CO2": 0,
+    "happiness": 25,
+    "money": 50
+  },
+  {
+    "nameCat": "Quin fred!",
+    "nameEsp": "¡Qué frío!",
+    "nameEng": "So cold!",
+    "descriptionCat": "Puja la calefacció.",
+    "descriptionEsp": "Sube la calefacción.",
+    "descriptionEng": "Turn up the heating.",
+    "energy": 10,
+    "CO2": 5,
+    "happiness": 35,
+    "money": 30
+  },
+  {
+    "nameCat": "Això és una sauna!",
+    "nameEsp": "¡Esto es una sauna!",
+    "nameEng": "This place's a sauna!",
+    "descriptionCat": "Puja l'aire acondicionat.",
+    "descriptionEsp": "Sube el aire acondicionado.",
+    "descriptionEng": "Turn up the AC.",
+    "energy": 10,
+    "CO2": 0,
+    "happiness": 35,
+    "money": 30
+  },
+  {
+    "nameCat": "Per què s'ha apagat l'ordinador?",
+    "nameEsp": "¿Por qué se ha apagado el ordenador?",
+    "nameEng": "Why did the computer turn off?",
+    "descriptionCat": "Arregla l'endoll d'aquest veí.",
+    "descriptionEsp": "Arregla el enchufe de este vecino.",
+    "descriptionEng": "Fix this neighbor's plug.",
+    "energy": 5,
+    "CO2": 0,
+    "happiness": 20,
+    "money": 30
+  }
+]
